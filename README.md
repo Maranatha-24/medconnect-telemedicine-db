@@ -25,3 +25,11 @@ A hybrid PostgreSQL and MongoDB database portfolio for the MedConnect Telemedici
 - [ ] Portfolio 4
 - [ ] Portfolio 5
 - [ ] Final documentation
+
+## Case study statement
+
+**Organisation:** MedConnect, a simulated telemedicine platform serving patients across Nigeria.
+**Nature of the system:** Remote consultations (video, audio, chat) with e-prescriptions, lab referrals and online payment.
+**Users:** Patients, doctors, pharmacists, lab partners and administrators.
+**Major data:** User accounts, patient and doctor profiles, specialties, availability slots, consultations, messages, prescriptions, drugs, vitals readings, payments and reviews.
+**Key operations:** Register, search doctors, book a slot, pay, hold a consultation, issue an e-prescription, retrieve patient history, submit vitals.
