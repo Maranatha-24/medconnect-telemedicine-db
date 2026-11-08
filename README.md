@@ -3,7 +3,7 @@
 A hybrid PostgreSQL and MongoDB database portfolio for the MedConnect Telemedicine platform featuring 3NF normalization, query optimization, ACID transactions and distributed cloud scaling.
 
 **Course:** MIT 8103 Advanced Database Systems (2026/2027, First Semester)
-**Student:** Adunni Full Name
+**Student:** Iyanda Maranatha
 **Case Study:** MedConnect, an online healthcare and telemedicine platform
 
 ## Portfolio structure
