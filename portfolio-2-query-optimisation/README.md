@@ -33,3 +33,18 @@ about 125 times faster.
 improvement is modest because the query still reads about 107,000 completed
 consultations and joins them with about 50,000 recent slots. An index speeds
 up the step it targets, but total time depends on the slowest step.
+## Query 3: Open Cardiology slots in the next 7 days
+
+| | Without idx_slot_start_time | With idx_slot_start_time |
+|---|---|---|
+| Access to availability_slot | Bitmap Index Scan on constraint index (doctor_id, start_time) | Index Scan on idx_slot_start_time |
+| Sort step | top-N heapsort (282 rows) | none |
+| Execution time | 9.382 ms | 3.622 ms |
+
+**Analysis:** Even without the new index, PostgreSQL used the index created by
+the UNIQUE (doctor_id, start_time) constraint from Portfolio 1, so the query was
+already fast. The new index stores slots in start_time order, so PostgreSQL
+reads them in the order the query asks for, skips booked slots, and stops as
+soon as LIMIT 20 is satisfied. This removed the sort and made the query about
+2.6 times faster. The gain is small in absolute terms because the dataset is
+only 200,000 slots, and the effect would grow with a larger table.
