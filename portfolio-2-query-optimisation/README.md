@@ -48,3 +48,31 @@ reads them in the order the query asks for, skips booked slots, and stops as
 soon as LIMIT 20 is satisfied. This removed the sort and made the query about
 2.6 times faster. The gain is small in absolute terms because the dataset is
 only 200,000 slots, and the effect would grow with a larger table.
+## Queries 4 and 5: aggregation and window functions
+
+**Query 4** uses GROUP BY with HAVING to list specialties with more than 9,000
+completed consultations, with the average doctor fee. All 10 specialties
+qualified, with between 9,617 and 9,871 completed consultations each.
+
+**Query 5** uses RANK() OVER (PARTITION BY specialty ORDER BY
+completed_consultations DESC) to rank the five doctors in each specialty. The
+result has 50 rows. Two Orthopaedics doctors tied on 1,904 consultations and
+share rank 4, which shows that RANK() gives tied rows the same rank and skips
+the next rank.
+
+Screenshots: Screenshots/query4-result.png, query5-result.png and
+query5-result-tie.png.
+
+## Summary of Portfolio 2
+
+| Query | Technique | Index added | Before | After | Change |
+|---|---|---|---|---|---|
+| 1. Patient history | joins, selective filter | idx_consultation_patient | 59.630 ms | 0.477 ms | about 125x faster |
+| 2. Doctor workload | joins, GROUP BY, date filter | idx_slot_start_time | 147.526 ms | 131.905 ms | about 11% faster |
+| 3. Open Cardiology slots | joins, ORDER BY, LIMIT | idx_slot_start_time | 9.382 ms | 3.622 ms | about 2.6x faster |
+| 4. Specialty totals | GROUP BY, HAVING | none needed | not tuned | | |
+| 5. Doctor ranking | window function RANK() | none needed | not tuned | | |
+
+**Conclusion:** Indexes helped most when a query selected a tiny fraction of a
+table (Query 1). When a query read a large share of the data (Query 2), the
+gain was small, because the slowest step was not the one the index targeted.
