@@ -1,7 +1,10 @@
 # Portfolio 5: Distributed and Cloud Database Exercise
 
-**Case study:** MedConnect (online healthcare and telemedicine platform, Nigeria), the same case study as Portfolios 1 to 4.
-**Platform:** MongoDB Atlas (free M0 cluster, Paris `eu-west-3`). **Script:** `replica_set_demo.js`
+**Case study:** MedConnect (online healthcare and telemedicine platform).
+
+**Platform:** MongoDB Atlas. 
+
+ **Script:** `replica_set_demo.js`
 
 ## 1. Cloud deployment
 
