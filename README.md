@@ -28,6 +28,9 @@ Each portfolio folder has its own `README.md` that explains what was done, how i
 ## Declaration of Responsibility
 
 I acknowledge that the use of AI tools does not relieve me of my responsibility for the accuracy and understanding of the submitted work. I understand that I am the primary author of this portfolio.
+
 AI tool used: Claude (Anthropic)
+
 What it was used for: Guidance, writing and explaining the SQL and MongoDB scripts, drafting the README files and explaining database concepts.
+
 How I retrieved and verified the output: I ran every script myself in pgAdmin, MongpDB compass and the MongoDB shell, captured the results as screenshots, corrected error that appeared, committed the work progressively to GitHub and checked the published repository. 
