@@ -9,7 +9,7 @@ This portfolio demonstrates transaction control (COMMIT, ROLLBACK), a
 concurrency problem (race condition), a control mechanism (row locking),
 and isolation levels, all using the MedConnect schema.
 
-## Demo 1: COMMIT (Booking an appointment) 
+## COMMIT (Booking an appointment) 
 **Script:** `01_booking_commit.sql`
 
 A booking is one transaction that does three things together: inserts a row in `consultation`, marks the slot as booked in `availability_slot`, and inserts a row in `payment`. `BEGIN` starts the unit and `COMMIT` saves all three changes at once (atomicity).
@@ -19,7 +19,7 @@ A booking is one transaction that does three things together: inserts a row in `
 ![Slot before booking](Screenshots/free-slots.png)
 ![Commit result](Screenshots/booking-commit-result.png)
 
-## Demo 2: ROLLBACK 
+## ROLLBACK 
 **Script:** `02_booking_rollback.sql`
 
 This booking fails on purpose at the payment step: the payment method `'cash'` violates the `payment_method_check` constraint (SQL state 23514). Because the consultation insert and the slot update ran earlier in the same transaction, `ROLLBACK` undoes them too.
@@ -29,7 +29,7 @@ This booking fails on purpose at the payment step: the payment method `'cash'` v
 ![Rollback error](Screenshots/rollback-error.png)
 ![State after rollback](Screenshots/rollback-result.png)
 
-## Demo 3: Race condition (two sessions, same slot)
+## Race condition (two sessions, same slot)
 **Script:** `03_concurrency_race.sql`
 
 Two sessions (pgAdmin Tab A and Tab B) try to book the same free slot at the same time. Both first check that the slot is free, and both see it as available. Tab A books it and commits. When Tab B then tries to insert its consultation for the same slot, the database rejects it with a duplicate key error.
@@ -43,7 +43,7 @@ Two sessions (pgAdmin Tab A and Tab B) try to book the same free slot at the sam
 ![Duplicate key error in Tab B](Screenshots/concurrency-duplicate-error.png)
 ![Final state: one booking only](Screenshots/concurrency-final-state.png)
 
-## Demo 4: Fixing the race with SELECT ... FOR UPDATE
+## Fixing the race with SELECT ... FOR UPDATE
 **Script:** `04_concurrency_for_update.sql`
 
 This fixes the race condition by locking the slot row. Tab A starts a transaction and runs `SELECT ... FOR UPDATE` on the free slot, which locks that row. When Tab B runs the same query for the same slot, it has to wait. After Tab A books the slot and commits, Tab B's query continues, re-checks `is_booked = FALSE`, and returns 0 rows. Tab B now knows the slot is gone and can stop cleanly, with no duplicate key error.
@@ -57,10 +57,10 @@ This fixes the race condition by locking the slot row. Tab A starts a transactio
 ![Tab B result after Tab A commits: 0 rows](Screenshots/lock-tabB-result.png)
 ![Final state: one booking only](Screenshots/lock-final-state.png)
 
-## Demo 5: Isolation levels (READ COMMITTED vs REPEATABLE READ)
+## Isolation levels (READ COMMITTED vs REPEATABLE READ)
 **Script:** `05_isolation_levels.sql`
 
-This demo shows how the isolation level changes what a transaction sees when another session commits a change in the middle of it. Tab A reads doctor 1's consultation fee twice inside one transaction. Between the two reads, Tab B raises the fee by 1,000 and commits.
+This level shows how the isolation level changes what a transaction sees when another session commits a change in the middle of it. Tab A reads doctor 1's consultation fee twice inside one transaction. Between the two reads, Tab B raises the fee by 1,000 and commits.
 
 **Part 1: READ COMMITTED (the PostgreSQL default).** Tab A's first read returns 21,000.00. After Tab B commits its update, Tab A's second read in the same transaction returns 22,000.00. The same query gave two different answers inside one transaction. This is a *non-repeatable read*.
 
@@ -73,16 +73,16 @@ This demo shows how the isolation level changes what a transaction sees when ano
 ![Repeatable read: still the old value after Tab B commits](Screenshots/isolation-repeatable-read-2.png)
 ![After commit: the new value is visible](Screenshots/isolation-repeatable-read-3.png)
 
-**Clean-up:** The script ends by restoring doctor 1's fee to 21,000 so the demo can be repeated.
+**Clean-up:** The script ends by restoring doctor 1's fee to 21,000 so the level can be repeated.
 
 **Trade-off:** `REPEATABLE READ` gives a consistent view for reports and multi-step reads. The cost is that the transaction works with slightly stale data, and in PostgreSQL it can fail with a serialization error if it tries to update a row that another session changed. `READ COMMITTED` always sees the latest committed data, but results can change mid-transaction.
 
 ## Key Lessons
-- **Atomicity:** A booking changes three tables, so it must be one transaction. `COMMIT` saves all the changes together and `ROLLBACK` undoes all of them, so the data never ends up half-saved (Demos 1 and 2).
-- **Constraints are a safety net:** The `CHECK` constraint on payment method caused the failure in Demo 2, and the unique constraint on `consultation.slot_id` stopped the double booking in Demo 3.
-- **Check-then-act is not safe:** Reading "is the slot free?" and then booking it are two separate steps, so another session can slip in between them (race condition, Demo 3).
-- **Row locking fixes it:** `SELECT ... FOR UPDATE` makes the second session wait, and it then sees the slot as taken and stops cleanly (Demo 4).
-- **Isolation level changes what you see:** `READ COMMITTED` can return different values inside one transaction, while `REPEATABLE READ` keeps one consistent snapshot (Demo 5).
+- **Atomicity:** A booking changes three tables, so it must be one transaction. `COMMIT` saves all the changes together and `ROLLBACK` undoes all of them, so the data never ends up half-saved.
+- **Constraints are a safety net:** The `CHECK` constraint on payment method caused the failure in ROLLBACK, and the unique constraint on `consultation.slot_id` stopped the double booking in Race condition.
+- **Check-then-act is not safe:** Reading "is the slot free?" and then booking it are two separate steps, so another session can slip in between them (race condition).
+- **Row locking fixes it:** `SELECT ... FOR UPDATE` makes the second session wait, and it then sees the slot as taken and stops cleanly (fixing the race with SELECT).
+- **Isolation level changes what you see:** `READ COMMITTED` can return different values inside one transaction, while `REPEATABLE READ` keeps one consistent snapshot (isolation level).
 
 ## How to Run
 **Requirements:** PostgreSQL 18, pgAdmin 4, the `medconnect` database with the schema (Portfolio 1) and seed data (Portfolio 2) already loaded.
