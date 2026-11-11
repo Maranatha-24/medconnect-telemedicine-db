@@ -1,35 +1,30 @@
-# medconnect-telemedicine-db
+# MedConnect: Advanced Database Systems Portfolio
 
-A hybrid PostgreSQL and MongoDB database portfolio for the MedConnect Telemedicine platform featuring 3NF normalization, query optimization, ACID transactions and distributed cloud scaling.
-
-**Course:** MIT 8103 Advanced Database Systems (2026/2027, First Semester)
 **Student:** Iyanda Maranatha
-**Case Study:** MedConnect, an online healthcare and telemedicine platform
+**Course:** MIT 8103 Advanced Database Systems, Master of Information Technology, 2026/2027 First Semester CA (Miva Open University)
 
-## Portfolio structure
+## Case study: MedConnect
 
-| Folder | Activity |
-|---|---|
-| portfolio-1-database-design | Database design and modelling |
-| portfolio-2-query-optimisation | Query processing and optimisation |
-| portfolio-3-transactions-concurrency | Transactions and concurrency |
-| portfolio-4-nosql | NoSQL and advanced data models |
-| portfolio-5-distributed-cloud | Distributed and cloud database exercise |
+MedConnect is an online healthcare and telemedicine platform in Nigeria. Patients book video consultations with doctors, pay online, and receive diagnoses and prescriptions. The database users are patients and doctors. The main data are patients, doctors, availability slots, consultations, payments, diagnoses and prescriptions. All five portfolios use this same case study.
 
-## Progress
+## Portfolio overview
 
-- [x] Repository set up
-- [ ] Portfolio 1
-- [ ] Portfolio 2
-- [ ] Portfolio 3
-- [ ] Portfolio 4
-- [ ] Portfolio 5
-- [ ] Final documentation
+| Portfolio | Topic | What it contains |
+|---|---|---|
+| [Portfolio 1](portfolio-1-database-design/) | Database Design and Modelling | PostgreSQL schema (12 tables), DBML model, ER diagram, normalisation explanation |
+| [Portfolio 2](portfolio-2-query-optimisation/) | Query Processing and Optimisation | Seeded data (200,000 slots, 119,537 consultations), 5 queries, indexes, before/after `EXPLAIN ANALYZE` |
+| [Portfolio 3](portfolio-3-transactions-concurrency/) | Transactions and Concurrency | COMMIT, ROLLBACK, race condition, `SELECT ... FOR UPDATE`, isolation levels |
+| [Portfolio 4](portfolio-4-nosql/) | NoSQL and Advanced Data Models | MongoDB document model, queries, aggregation pipeline |
+| [Portfolio 5](portfolio-5-distributed-cloud/) | Distributed and Cloud Database | MongoDB Atlas replica set, majority write, CAP and sharding discussion |
 
-## Case study statement
+## Tools used
 
-**Organisation:** MedConnect, a simulated telemedicine platform serving patients across Nigeria.
-**Nature of the system:** Remote consultations (video, audio, chat) with e-prescriptions, lab referrals and online payment.
-**Users:** Patients, doctors, pharmacists, lab partners and administrators.
-**Major data:** User accounts, patient and doctor profiles, specialties, availability slots, consultations, messages, prescriptions, drugs, vitals readings, payments and reviews.
-**Key operations:** Register, search doctors, book a slot, pay, hold a consultation, issue an e-prescription, retrieve patient history, submit vitals.
+PostgreSQL 18, pgAdmin 4, MongoDB Atlas (free M0 cluster), MongoDB Compass, Visual Studio Code, Git and GitHub.
+
+## How to review this repository
+
+Each portfolio folder has its own `README.md` that explains what was done, how it was run and tested, and shows screenshots of the results. Scripts are numbered in the order they should be run, and screenshots are in each folder's `Screenshots` folder.
+
+## AI use declaration
+
+I used Claude (Anthropic) for step-by-step guidance, to help write and explain the SQL and MongoDB scripts, and to draft README text. I ran every script myself in pgAdmin, MongoDB Compass and the MongoDB shell, captured the results as screenshots, fixed errors as they appeared, and committed the work progressively to this repository.
