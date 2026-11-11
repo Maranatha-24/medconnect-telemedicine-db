@@ -1,6 +1,6 @@
 # Portfolio 4: NoSQL and Advanced Data Models
 
-**Case study:** MedConnect (online healthcare and telemedicine platform, Nigeria), the same case study as Portfolios 1 to 3.
+**Case study:** MedConnect (online healthcare and telemedicine platform), the same case study as Portfolios 1 to 3.
 
 **Database:** MongoDB Atlas (free M0 cluster), document model. 
 
