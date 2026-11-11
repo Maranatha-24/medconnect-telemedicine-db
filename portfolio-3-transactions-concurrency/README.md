@@ -1,6 +1,7 @@
 # Portfolio 3: Transactions and Concurrency
 
 **Case study:** MedConnect (online healthcare and telemedicine platform, Nigeria)
+
 **Database:** PostgreSQL 18, database `medconnect`
 
 ## Overview
