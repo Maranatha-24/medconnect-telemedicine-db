@@ -1,7 +1,7 @@
 # MedConnect: Advanced Database Systems Portfolio
 
 **Student:** Iyanda Maranatha
-**Course:** MIT 8103 Advanced Database Systems, Master of Information Technology, 2026/2027 First Semester CA (Miva Open University)
+**Course:** MIT 8103 Advanced Database Systems, Master of Information Technology
 
 ## Case study: MedConnect
 
